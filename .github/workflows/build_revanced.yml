@@ -1,0 +1,52 @@
+###############################################################
+# Author(s): Việt Anh Bùi | https://github.com/vietanhbui2000 #
+#            n0k0m3 | https://github.com/n0k0m3               #
+###############################################################
+
+name: Build ReVanced
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'versions.json'
+
+jobs:
+  build:
+    runs-on: 'ubuntu-22.04'
+
+    steps:
+    - name: 'Checkout'
+      uses: 'actions/checkout@main'
+
+    - name: 'Setup Java'
+      uses: 'actions/setup-java@v3.12.0'
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+        java-package: 'jdk'
+
+    - name: 'Download base packages'
+      run: |
+        chmod +x download.sh
+        ./download.sh
+
+    - name: 'Compile packages'
+      env:
+        CN: '${{ secrets.KEYSTORE_CN }}'
+        PASSWORD: '${{ secrets.KEYSTORE_PASSWORD }}'
+      run: |
+        chmod +x compile.sh
+        ./compile.sh "$CN" "$PASSWORD"
+        echo "date_now=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+    - name: 'Upload packages'
+      uses: 'marvinpinto/action-automatic-releases@v1.2.1'
+      with:
+        repo_token: '${{ secrets.GITHUB_TOKEN }}'
+        automatic_release_tag: 'latest'
+        draft: true
+        title: 'ReVanced r${{ env.date_now }}'
+        files: |
+          output/*.keystore
+          output/*.apk
