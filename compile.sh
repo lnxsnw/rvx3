@@ -22,9 +22,9 @@ declare -a revanced_patches
 declare -a retwitch_patches
 declare -a retiktok_patches
 
-artifacts["revanced-cli.jar"]="revanced/revanced-cli revanced-cli .jar"
-artifacts["revanced-integrations.apk"]="revanced/revanced-integrations revanced-integrations .apk"
-artifacts["revanced-patches.jar"]="revanced/revanced-patches revanced-patches .jar"
+artifacts["revanced-cli.jar"]="https://github.com/ReVanced/revanced-cli/releases/download/v5.0.0/revanced-cli-5.0.0-all.jar"
+artifacts["revanced-integrations.apk"]="https://github.com/ReVanced/revanced-integrations/releases/download/v1.16.0/revanced-integrations-1.16.0.apk"
+artifacts["revanced-patches.jar"]="https://github.com/ReVanced/revanced-patches/releases/download/v4.18.0-dev.6/revanced-patches-4.18.0-dev.6.jar"
 
 get_artifact_download_url()
 {
